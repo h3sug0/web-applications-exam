@@ -1,7 +1,5 @@
 # АИС «Электронная библиотека»
 
-Flask-приложение на Flask-SQLAlchemy с Blueprint-структурой и миграциями Flask-Migrate.
-
 ## Установка
 
 ```powershell
