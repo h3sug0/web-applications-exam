@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Новая рецензия{% endblock %}
+{% block content %}
+<h1 class="h3 mb-1">Новая рецензия</h1>
+<p class="text-secondary mb-3">{{ book.title }}</p>
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label" for="rating">Оценка</label>
+        <select class="form-select" id="rating" name="rating">
+            {% for value in [5, 4, 3, 2, 1, 0] %}
+                <option value="{{ value }}" {% if value == rating %}selected{% endif %}>{{ rating_label(value) }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="text">Текст рецензии</label>
+        <textarea class="form-control js-markdown" id="text" name="text" rows="8">{{ text }}</textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Сохранить</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('books.book_detail', book_id=book.id) }}">Отмена</a>
+</form>
+{% endblock %}

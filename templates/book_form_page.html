@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% from "macros.html" import book_form %}
+{% block title %}{% if mode == 'create' %}Добавление книги{% else %}Редактирование книги{% endif %}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">{% if mode == 'create' %}Добавление книги{% else %}Редактирование книги{% endif %}</h1>
+{{ book_form(book, genres, selected_genres, mode) }}
+{% endblock %}

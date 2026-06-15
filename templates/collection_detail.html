@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ collection.title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">{{ collection.title }}</h1>
+    <a class="btn btn-outline-secondary" href="{{ url_for('collections.index') }}">К подборкам</a>
+</div>
+{% if books %}
+    <div class="row g-3">
+        {% for book in books %}
+            <div class="col-md-6 col-lg-4">
+                <div class="book-card">
+                    <h2 class="h5">{{ book.title }}</h2>
+                    <p class="text-secondary mb-2">{{ book.author }} · {{ book.year }}</p>
+                    <p class="small mb-3">{{ book.genres | map(attribute='name') | join(', ') or 'Без жанра' }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="small text-secondary">Рецензий: {{ book.reviews | length }}</span>
+                        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('books.book_detail', book_id=book.id) }}">Просмотр</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">В этой подборке пока нет книг.</div>
+{% endif %}
+{% endblock %}

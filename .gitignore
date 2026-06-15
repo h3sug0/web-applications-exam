@@ -1,0 +1,52 @@
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments and packages
+.env
+.flaskenv
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Virtualenv / pipenv
+Pipfile.lock
+poetry.lock
+pdm.lock
+.pdm-python
+.pdm-build/
+__pypackages__/
+
+# Project-specific database and uploads
+library.db
+library_legacy_backup.db
+uploads/
+instance/
+.webassets-cache/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing & Coverage
+.coverage
+.coverage.*
+.pytest_cache/
+.tox/
+.nox/
+htmlcov/

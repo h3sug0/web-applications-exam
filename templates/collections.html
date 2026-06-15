@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Мои подборки{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Мои подборки</h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCollection">Добавить подборку</button>
+</div>
+{% if collections %}
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Количество книг</th>
+            <th class="text-end">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for item in collections %}
+                {% set collection = item.collection %}
+            <tr>
+                <td class="fw-semibold">{{ collection.title }}</td>
+                <td>{{ item.book_count }}</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('collections.detail', collection_id=collection.id) }}">Просмотр</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty-state">У вас пока нет подборок.</div>
+{% endif %}
+
+<div class="modal fade" id="newCollection" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" method="post" action="{{ url_for('collections.index') }}">
+            <div class="modal-header">
+                <h2 class="modal-title h5">Новая подборка</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label" for="title">Название подборки</label>
+                <input class="form-control" id="title" name="title" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

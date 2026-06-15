@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Вход · Электронная библиотека{% endblock %}
+{% block content %}
+<div class="auth-panel">
+    <h1 class="h3 mb-3">Вход</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label" for="login">Логин</label>
+            <input class="form-control" id="login" name="login" required value="{{ login_value or '' }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="password">Пароль</label>
+            <input class="form-control" id="password" name="password" type="password" required>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" id="remember" name="remember" type="checkbox">
+            <label class="form-check-label" for="remember">Запомнить меня</label>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Войти</button>
+    </form>
+    <div class="small text-secondary mt-3">
+        Тестовые пользователи: admin/admin, moderator/moderator, user/user.
+    </div>
+</div>
+{% endblock %}

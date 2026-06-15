@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }} · Электронная библиотека{% endblock %}
+{% block content %}
+<div class="book-detail">
+    <div>
+        {% if book.cover %}
+            <img class="book-cover" src="{{ url_for('books.cover_file', filename=book.cover.filename) }}" alt="Обложка книги {{ book.title }}">
+        {% endif %}
+    </div>
+    <section>
+        <div class="d-flex justify-content-between gap-3 align-items-start">
+            <div>
+                <h1 class="h2">{{ book.title }}</h1>
+                <p class="text-secondary mb-2">{{ book.author }} · {{ book.year }}</p>
+            </div>
+            {% if current_user and current_user.role.slug == 'user' %}
+                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addToCollection">Добавить в подборку</button>
+            {% endif %}
+        </div>
+        <dl class="row mt-3">
+            <dt class="col-sm-3">Издательство</dt><dd class="col-sm-9">{{ book.publisher }}</dd>
+            <dt class="col-sm-3">Объём</dt><dd class="col-sm-9">{{ book.page_count }} стр.</dd>
+            <dt class="col-sm-3">Жанры</dt><dd class="col-sm-9">{{ book.genres | map(attribute='name') | join(', ') }}</dd>
+        </dl>
+        <div class="markdown-body">{{ book.description | markdown | safe }}</div>
+    </section>
+</div>
+
+{% if current_user and current_user.role.slug == 'user' %}
+<div class="modal fade" id="addToCollection" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" method="post" action="{{ url_for('collections.add_book', book_id=book.id) }}">
+            <div class="modal-header">
+                <h2 class="modal-title h5">Добавить в подборку</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label" for="collection_id">Подборка</label>
+                <select class="form-select" id="collection_id" name="collection_id" required>
+                    {% for collection in collections %}
+                        <option value="{{ collection.id }}">{{ collection.title }}</option>
+                    {% endfor %}
+                </select>
+                {% if not collections %}
+                    <div class="form-text">Сначала создайте подборку в разделе «Мои подборки».</div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button class="btn btn-primary" type="submit" {% if not collections %}disabled{% endif %}>Добавить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<section class="mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Рецензии</h2>
+        {% if current_user and not user_review %}
+            <a class="btn btn-primary" href="{{ url_for('books.create_review', book_id=book.id) }}">Написать рецензию</a>
+        {% endif %}
+    </div>
+    {% if user_review %}
+        <div class="alert alert-info">Вы уже оставили рецензию на эту книгу.</div>
+    {% endif %}
+    {% if reviews %}
+        <div class="reviews">
+            {% for review in reviews %}
+                <article class="review">
+                    <div class="d-flex justify-content-between gap-2">
+                        <div>
+                            <strong>{{ review.user.last_name }} {{ review.user.first_name }} {{ review.user.middle_name or '' }}</strong>
+                            <span class="text-secondary">· {{ review.rating }} — {{ rating_label(review.rating) }}</span>
+                        </div>
+                        {% if current_user and current_user.role.slug in ['admin', 'moderator'] %}
+                            <form method="post" action="{{ url_for('books.delete_review', review_id=review.id) }}">
+                                <button class="btn btn-sm btn-outline-danger" type="submit">Удалить</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="markdown-body mt-2">{{ review.text | markdown | safe }}</div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-secondary">Рецензий пока нет.</p>
+    {% endif %}
+</section>
+{% endblock %}

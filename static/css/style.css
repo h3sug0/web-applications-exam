@@ -1,0 +1,82 @@
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background: #f7f8fa;
+    color: #1f2933;
+}
+
+main.container {
+    min-height: calc(100vh - 140px);
+}
+
+.table,
+.auth-panel,
+.book-card,
+.review {
+    background: #fff;
+}
+
+.auth-panel {
+    max-width: 420px;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.book-detail {
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.book-cover {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    background: #e9ecef;
+}
+
+.markdown-body {
+    line-height: 1.65;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+}
+
+.review,
+.book-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.reviews {
+    display: grid;
+    gap: 1rem;
+}
+
+.empty-state {
+    padding: 2rem;
+    border: 1px dashed #adb5bd;
+    border-radius: 8px;
+    color: #6c757d;
+    background: #fff;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .book-detail {
+        grid-template-columns: 1fr;
+    }
+}
